@@ -1,7 +1,5 @@
-import 'package:task_garage/domain/model/user.dart';
+import 'package:task_garage/domain/model/task_list.dart';
 
 abstract class TaskListRepository {
-  Future<User> getTaskList({
-    required Map code
-  });
+  Future<TaskList> getTaskList({required TaskListRequest taskListRequest});
 }

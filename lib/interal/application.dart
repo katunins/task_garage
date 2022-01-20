@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:task_garage/domain/state/task_list_provider.dart';
 import 'package:task_garage/domain/state/user_provider.dart';
 import 'package:task_garage/presentation/home.dart';
 
@@ -20,6 +21,8 @@ class Application extends StatelessWidget {
                 value: UserProvider(
               RepositoryModule.userRepository(),
             )),
+            ChangeNotifierProvider.value(
+                value: TaskListProvider(RepositoryModule.taskListRepository()))
           ],
           child: const Home(),
         ));

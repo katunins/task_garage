@@ -19,7 +19,7 @@ class _AuthPageState extends State<AuthPage> {
 
     void signIn(code) {
       if (code == null || code == '') return;
-      _userState.authUser(code);
+      _userState.getUser(code);
     }
     
     return Scaffold(
