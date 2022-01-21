@@ -1,66 +1,69 @@
 import 'package:task_garage/domain/model/task_list.dart';
 
 class ApiTaskList {
-  List<Task> tasks;
-  NotFinished notFinished;
+  final List<Task> tasks;
+  final ApiNotFinished notfinished;
 
   ApiTaskList.fromApi(Map<String, dynamic> map)
-      : tasks = map['tasks'],
-        notFinished = map['notFinished'];
-}
+      : tasks = map['tasks'].map((item)=>ApiTask.fromApi(item)),
+        notfinished = ApiNotFinished.fromApi(map['notfinished']);
+      // : tasks = map['tasks'],
+      //   notfinished = map['notfinished'];
 
-class ApiNotFinished {
-  int deadLine;
-  int stuck;
-
-  ApiNotFinished.fromApi(Map<String, dynamic> map)
-      : deadLine = map['deadline'],
-        stuck = map['stuck'];
 }
 
 class ApiTask {
   int id;
   String name;
   int master;
-  int templateId;
+  int templateid;
   int time;
   String status;
-  String? masterComment;
-  int? taskIdBefore;
+  dynamic mastercomment;
+  int taskidbefore;
   DateTime start;
   DateTime end;
   int buffer;
   int line;
   int position;
-  String generalInfo;
-  String? info;
-  int dealId;
+  String generalinfo;
+  dynamic info;
+  int dealid;
   String manager;
-  int managerNote;
+  int managernote;
   String deal;
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime created_at;
+  DateTime updated_at;
 
   ApiTask.fromApi(Map<String, dynamic> map)
       : id = map['id'],
         name = map['name'],
         master = map['master'],
-        templateId = map['templateid'],
+        templateid = map['templateid'],
         time = map['time'],
         status = map['status'],
-        masterComment = map['mastercomment'],
-        taskIdBefore = map['taskidbefore'],
+        mastercomment = map['mastercomment'],
+        taskidbefore = map['taskidbefore'],
         start = map['start'],
         end = map['end'],
         buffer = map['buffer'],
         line = map['line'],
         position = map['position'],
-        generalInfo = map['generalinfo'],
+        generalinfo = map['generalinfo'],
         info = map['info'],
-        dealId = map['dealid'],
+        dealid = map['dealid'],
         manager = map['manager'],
-        managerNote = map['managernote'],
+        managernote = map['managernote'],
         deal = map['deal'],
-        createdAt = map['created_at'],
-        updatedAt = map['updated_at'];
+        created_at = map['created_at'],
+        updated_at = map['updated_at'];
 }
+class ApiNotFinished {
+  int deadline;
+  int stuck;
+
+  ApiNotFinished.fromApi(Map<String, dynamic> map)
+      : deadline = map['deadline'],
+        stuck = map['stuck'];
+}
+

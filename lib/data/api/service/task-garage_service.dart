@@ -26,6 +26,7 @@ class TaskGarageService {
     if (response.statusCode != 200) {
       throw Exception('Error fetching users');
     }
+
     return ApiTaskList.fromApi(jsonDecode(response.body));
   }
 }

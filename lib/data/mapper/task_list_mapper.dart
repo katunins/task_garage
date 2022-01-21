@@ -3,6 +3,6 @@ import 'package:task_garage/domain/model/task_list.dart';
 
 class TaskListMapper {
   static TaskList fromApi(ApiTaskList taskList) {
-    return TaskList(tasks: taskList.tasks, notFinished: taskList.notFinished);
+    return TaskList(tasks: taskList.tasks, notfinished: NotFinished(deadline: 0, stuck: 0));
   }
 }
