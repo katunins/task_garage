@@ -1,72 +1,45 @@
-import 'package:task_garage/domain/model/task_list.dart';
+import 'package:task_garage/helper.dart';
 
 class ApiTaskList {
-  final List<Task> tasks;
+  final List<ApiTask> tasks;
   final ApiNotFinished notfinished;
 
   ApiTaskList.fromApi(Map<String, dynamic> map)
-      : tasks = map['tasks'].map((item)=>ApiTask.fromApi(item)),
+      : tasks = apiTaskListConverter(map['tasks']),
         notfinished = ApiNotFinished.fromApi(map['notfinished']);
-      // : tasks = map['tasks'],
-      //   notfinished = map['notfinished'];
-
-}
-@JsonSerializable()
-class Person {
-  /// The generated code assumes these values exist in JSON.
-  final String firstName, lastName;
-
-  /// The generated code below handles if the corresponding JSON value doesn't
-  /// exist or is empty.
-  final DateTime? dateOfBirth;
-
-  Person({required this.firstName, required this.lastName, this.dateOfBirth});
-
-  /// Connect the generated [_$PersonFromJson] function to the `fromJson`
-  /// factory.
-  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
-
-  /// Connect the generated [_$PersonToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$PersonToJson(this);
 }
 
-Person q_$PersonFromJson(Map<String, dynamic> json) => Person(
-  firstName: json['firstName'] as String,
-  lastName: json['lastName'] as String,
-  dateOfBirth: json['dateOfBirth'] == null
-      ? null
-      : DateTime.parse(json['dateOfBirth'] as String),
-);
+class ApiNotFinished {
+  final int deadline;
+  final int stuck;
 
-Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
-  'firstName': instance.firstName,
-  'lastName': instance.lastName,
-  'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
-};
-
+  ApiNotFinished.fromApi(Map<String, dynamic> map)
+      : deadline = map['deadline'],
+        stuck = map['stuck'];
+}
 
 class ApiTask {
-  int id;
-  String name;
-  int master;
-  int templateid;
-  int time;
-  String status;
-  dynamic mastercomment;
-  int taskidbefore;
-  DateTime start;
-  DateTime end;
-  int buffer;
-  int line;
-  int position;
-  String generalinfo;
-  dynamic info;
-  int dealid;
-  String manager;
-  int managernote;
-  String deal;
-  DateTime created_at;
-  DateTime updated_at;
+  final int id;
+  final String name;
+  final int master;
+  final int templateid;
+  final int time;
+  final String status;
+  final String? mastercomment;
+  final int? taskidbefore;
+  final DateTime start;
+  final DateTime end;
+  final int buffer;
+  final int line;
+  final int position;
+  final String generalinfo;
+  final String? info;
+  final int dealid;
+  final String manager;
+  final int? managernote;
+  final String deal;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   ApiTask.fromApi(Map<String, dynamic> map)
       : id = map['id'],
@@ -77,8 +50,8 @@ class ApiTask {
         status = map['status'],
         mastercomment = map['mastercomment'],
         taskidbefore = map['taskidbefore'],
-        start = map['start'],
-        end = map['end'],
+        start = DateTime.parse(map['start']),
+        end = DateTime.parse(map['end']),
         buffer = map['buffer'],
         line = map['line'],
         position = map['position'],
@@ -88,15 +61,6 @@ class ApiTask {
         manager = map['manager'],
         managernote = map['managernote'],
         deal = map['deal'],
-        created_at = map['created_at'],
-        updated_at = map['updated_at'];
+        createdAt = DateTime.parse(map['created_at']),
+        updatedAt = DateTime.parse(map['updated_at']);
 }
-class ApiNotFinished {
-  int deadline;
-  int stuck;
-
-  ApiNotFinished.fromApi(Map<String, dynamic> map)
-      : deadline = map['deadline'],
-        stuck = map['stuck'];
-}
-

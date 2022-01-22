@@ -6,13 +6,10 @@ class TaskListRequest {
 }
 
 class TaskList {
-  List<Task?> tasks;
-  NotFinished notfinished;
+  List<Task> tasks;
+  NotFinished notFinished;
 
-  TaskList({
-    required this.tasks,
-    required this.notfinished
-  });
+  TaskList({required this.tasks, required this.notFinished});
 }
 
 class NotFinished {
@@ -29,47 +26,47 @@ class Task {
   int id;
   String name;
   int master;
-  int templateid;
+  int templateId;
   int time;
   String status;
-  dynamic mastercomment;
-  int taskidbefore;
+  String? masterComment;
+  int? taskIdBefore;
   DateTime start;
   DateTime end;
   int buffer;
   int line;
   int position;
-  String generalinfo;
-  dynamic info;
-  int dealid;
+  String generalInfo;
+  String? info;
+  int dealId;
   String manager;
-  int managernote;
+  int? managerNote;
   String deal;
-  DateTime created_at;
-  DateTime updated_at;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   Task({
     required this.id,
     required this.name,
     required this.master,
-    required this.templateid,
+    required this.templateId,
     required this.time,
     required this.status,
-    required this.mastercomment,
-    required this.taskidbefore,
+    required this.masterComment,
+    required this.taskIdBefore,
     required this.start,
     required this.end,
     required this.buffer,
     required this.line,
     required this.position,
-    required this.generalinfo,
+    required this.generalInfo,
     required this.info,
-    required this.dealid,
+    required this.dealId,
     required this.manager,
-    required this.managernote,
+    required this.managerNote,
     required this.deal,
-    required this.created_at,
-    required this.updated_at,
+    required this.createdAt,
+    required this.updatedAt,
   });
 }
 

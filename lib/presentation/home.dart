@@ -13,7 +13,7 @@ class Home extends StatelessWidget {
 
     UserProvider _userProvider =  Provider.of<UserProvider>(context);
     User? user = _userProvider.user;
-    if (user == null) return const TaskListPage();
+    if (user != null) return const TaskListPage();
     return const AuthPage();
   }
 }
