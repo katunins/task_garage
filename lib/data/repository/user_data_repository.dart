@@ -8,7 +8,7 @@ class UserDataRepository extends UserRepository {
   UserDataRepository(this._apiUtil);
 
   @override
-  Future<User> getUser({required String code}) {
-    return _apiUtil.getUser(code: code);
+  Future<User> authUser({required String code}) {
+    return _apiUtil.authUser(code: code);
   }
 }

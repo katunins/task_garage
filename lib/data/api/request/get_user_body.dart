@@ -1,7 +1,7 @@
-class GetUserBody {
+class authUserBody {
   final String code;
 
-  GetUserBody({required this.code});
+  authUserBody({required this.code});
 
   Map<String, dynamic> toApi() {
     return {

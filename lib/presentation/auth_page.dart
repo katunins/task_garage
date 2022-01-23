@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:task_garage/domain/model/task_list.dart';
+import 'package:task_garage/domain/model/user.dart';
+import 'package:task_garage/domain/state/task_list_provider.dart';
 import 'package:task_garage/domain/state/user_provider.dart';
+import 'package:task_garage/helper.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -14,14 +18,15 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-
     UserProvider _userState = Provider.of<UserProvider>(context);
+    TaskListProvider taskListState = Provider.of<TaskListProvider>(context, listen: false);
 
-    void signIn(code) {
+    void signIn(code) async {
       if (code == null || code == '') return;
-      _userState.getUser(code);
+      User user = await _userState.authUser(code);
+      taskListState.getTaskList(TaskListRequest(date: getStringDate(DateTime.now()), userId: user.id));
     }
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Авторизация')),
@@ -41,8 +46,7 @@ class _AuthPageState extends State<AuthPage> {
                   ),
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                   scrollPadding: const EdgeInsets.all(20.0),
                   onSaved: (code) {
                     signIn(code);

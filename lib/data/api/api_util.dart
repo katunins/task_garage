@@ -11,17 +11,14 @@ class ApiUtil {
 
   ApiUtil(this._taskGarageService);
 
-  Future<User> getUser({
-    required String code
-  }) async {
-    final body = GetUserBody(code: code);
-    final result = await _taskGarageService.getUser(body);
-    return UserMapper.fromApi(result);
+  Future<User> authUser({required String code}) async {
+      final body = authUserBody(code: code);
+      final result = await _taskGarageService.authUser(body);
+      return UserMapper.fromApi(result);
   }
 
-  Future<TaskList> getTaskList({
-    required TaskListRequest taskListRequest
-  }) async {
+  Future<TaskList> getTaskList(
+      {required TaskListRequest taskListRequest}) async {
     final body = GetTaskListBody(taskListRequest: taskListRequest);
     final result = await _taskGarageService.getTaskList(body);
     return TaskListMapper.fromApi(result);

@@ -8,11 +8,13 @@ class UserProvider with ChangeNotifier {
   final UserRepository _userRepository;
 
   User? _user;
+
   User? get user => _user;
 
-  Future<void> getUser(String code) async {
-    final User user = await _userRepository.getUser(code: code);
+  Future<User> authUser(String code) async {
+    final User user = await _userRepository.authUser(code: code);
     _user = user;
     notifyListeners();
+    return user;
   }
 }

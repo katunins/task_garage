@@ -9,13 +9,14 @@ class TaskListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     UserProvider userState = Provider.of<UserProvider>(context);
 
-    TaskListProvider taskListState = Provider.of<TaskListProvider>(context, listen: false);
-    taskListState.getTaskList(TaskListRequest(date: '2022-01-20', userId: userState.user.id));
+    TaskListProvider taskListState =
+        Provider.of<TaskListProvider>(context, listen: false);
+    taskListState.getTaskList(
+        TaskListRequest(date: '2022-01-20', userId: userState.user?.id ?? 0));
 
-        // .then((value) => {print(_taskListProvider.taskList?.tasks.length)});
+    // .then((value) => {print(_taskListProvider.taskList?.tasks.length)});
     // print(_taskListProvider.taskList);
     return Container();
   }
