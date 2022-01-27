@@ -11,10 +11,10 @@ class ApiUtil {
 
   ApiUtil(this._taskGarageService);
 
-  Future<User> authUser({required String code}) async {
+  Future<User?> authUser({required String code}) async {
       final body = authUserBody(code: code);
       final result = await _taskGarageService.authUser(body);
-      return UserMapper.fromApi(result);
+      if (result != null) return UserMapper.fromApi(result);
   }
 
   Future<TaskList> getTaskList(

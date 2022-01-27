@@ -4,61 +4,72 @@ import 'package:task_garage/domain/model/task_list.dart';
 import 'package:task_garage/domain/model/user.dart';
 import 'package:task_garage/domain/state/task_list_provider.dart';
 import 'package:task_garage/domain/state/user_provider.dart';
-import 'package:task_garage/helper.dart';
+import 'package:task_garage/presentation/widgets/code_input.dart';
 
-class AuthPage extends StatefulWidget {
-  const AuthPage({Key? key}) : super(key: key);
-
-  @override
-  _AuthPageState createState() => _AuthPageState();
+Future<void> showMyDialog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('AlertDialog Title'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: const <Widget>[
+              Text('This is a demo alert dialog.'),
+              Text('Would you like to approve of this message?'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Approve'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
 
-class _AuthPageState extends State<AuthPage> {
-  final _formKey = GlobalKey<FormState>();
+class AuthPage extends StatelessWidget {
+  const AuthPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     UserProvider _userState = Provider.of<UserProvider>(context);
     TaskListProvider taskListState = Provider.of<TaskListProvider>(context, listen: false);
 
-    void signIn(code) async {
-      if (code == null || code == '') return;
-      User user = await _userState.authUser(code);
-      taskListState.getTaskList(TaskListRequest(date: getStringDate(DateTime.now()), userId: user.id));
+    void onFilled(String code) async {
+      try {
+        User? user = await _userState.authUser(code);
+      } catch (error) {
+        showMyDialog(context);
+        // AlertDialog(title: const Text('Ошибка'), content: Text(error.toString()));
+      }
+      // _taskListState.getTaskList(TaskListRequest(date: getStringDate(DateTime.now()), userId: user.id));
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Center(child: Text('Авторизация')),
-      ),
-      body: Center(
-        child: SizedBox(
-          width: 200,
-          child: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.always,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Введите код',
-                  ),
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                  scrollPadding: const EdgeInsets.all(20.0),
-                  onSaved: (code) {
-                    signIn(code);
-                  },
-                ),
-                const SizedBox(height: 30.0),
-                ElevatedButton(
-                  onPressed: () => _formKey.currentState?.save(),
-                  child: const Text('Войти'),
-                ),
-              ],
-            ),
+    return MaterialApp(
+      color: Colors.deepOrange,
+      home: Scaffold(
+        appBar: AppBar(title: const Center(child: Text('Авторизация'))),
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Введите код',
+                style: TextStyle(fontSize: 16.0),
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              codeInputWidget(onFilled)
+            ],
           ),
         ),
       ),
