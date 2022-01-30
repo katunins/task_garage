@@ -1,6 +1,6 @@
 class TaskListRequest {
   int userId;
-  String date;
+  DateTime date;
 
   TaskListRequest({required this.date, required this.userId});
 }

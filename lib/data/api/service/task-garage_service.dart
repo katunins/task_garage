@@ -12,7 +12,6 @@ class TaskGarageService {
   Future<ApiUser?> authUser(authUserBody body) async {
       final response =
           await http.post(Uri.parse('$BASE_URL/checkauth'), body: body.toApi());
-
       if (response.statusCode == 401) {
         throw 'Не верный пароль';
       }
@@ -22,10 +21,10 @@ class TaskGarageService {
   Future<ApiTaskList> getTaskList(GetTaskListBody body) async {
     final response = await http.post(Uri.parse('$BASE_URL/getcalendar'),
         headers: {"Content-Type": "application/json"}, body: body.toApi());
-
     if (response.statusCode != 200) {
       throw Exception('Error fetching users');
     }
+
 
     return ApiTaskList.fromApi(jsonDecode(response.body));
   }

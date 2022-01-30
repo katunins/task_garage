@@ -12,28 +12,33 @@ List<ApiTask> apiTaskListConverter(List<dynamic> map) {
   return result;
 }
 
-String getStringDate(DateTime date) {
-  return DateFormat("yyyy-MM-dd").format(date);
+String getStringDate({required DateTime date, bool? forServer}) {
+  return DateFormat(forServer != null ? "yyyy-MM-dd" : "dd.MM.yyyy").format(date);
 }
 
-void showAlert(
+Future<void> showMyDialog(
     {required BuildContext context,
-    String title = 'Ошибка',
-    required String message}) {
-  showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Ок'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      });
+    String? title,
+    required Widget content,
+    String? closeButtonText,
+    TextButton? textButton}) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title ?? 'Ошибка'),
+        content: content,
+        actions: <Widget>[
+          if (textButton != null) textButton,
+          TextButton(
+            child: Text(closeButtonText ?? 'Ок'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

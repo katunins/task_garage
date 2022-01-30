@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:task_garage/data/api/request/get_task_list_body.dart';
 import 'package:task_garage/data/api/request/get_user_body.dart';
 import 'package:task_garage/data/api/service/task-garage_service.dart';
@@ -12,13 +14,12 @@ class ApiUtil {
   ApiUtil(this._taskGarageService);
 
   Future<User?> authUser({required String code}) async {
-      final body = authUserBody(code: code);
-      final result = await _taskGarageService.authUser(body);
-      if (result != null) return UserMapper.fromApi(result);
+    final body = authUserBody(code: code);
+    final result = await _taskGarageService.authUser(body);
+    if (result != null) return UserMapper.fromApi(result);
   }
 
-  Future<TaskList> getTaskList(
-      {required TaskListRequest taskListRequest}) async {
+  Future<TaskList> getTaskList({required TaskListRequest taskListRequest}) async {
     final body = GetTaskListBody(taskListRequest: taskListRequest);
     final result = await _taskGarageService.getTaskList(body);
     return TaskListMapper.fromApi(result);
