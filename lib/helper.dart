@@ -42,3 +42,10 @@ Future<void> showMyDialog(
     },
   );
 }
+
+// сверяет задачи сделки с нынешней
+bool getDeadlineAlert({required DateTime endDate, required int buffer}) {
+  DateTime deadlineDateTime = endDate;
+  deadlineDateTime.add(Duration(minutes: buffer));
+  return deadlineDateTime.compareTo(DateTime.now()) < 0;
+}
