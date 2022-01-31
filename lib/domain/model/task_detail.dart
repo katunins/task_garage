@@ -9,7 +9,7 @@ class TaskDetail {
   });
 
   late final Deal deal;
-  late final Task nextTask;
+  late final Task? nextTask;
   final int taskId;
 }
 

@@ -6,7 +6,7 @@ import 'api_task_list.dart';
 class ApiTaskDetail {
   final int taskId;
   final ApiDeal deal;
-  final ApiTask nextTask;
+  final ApiTask? nextTask;
 
   ApiTaskDetail.fromApi(Map<String, dynamic> map, this.taskId)
       : deal = ApiDeal.fromApi(map['deal']),
