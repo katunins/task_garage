@@ -26,6 +26,7 @@ class TaskListMapper {
               manager: item.manager,
               managerNote: item.managernote,
               deal: item.deal,
+              stuck: item.stuck,
               createdAt: item.createdAt,
               updatedAt: item.updatedAt)
       );

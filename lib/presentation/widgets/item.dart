@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:task_garage/domain/model/task_detail.dart';
 import 'package:task_garage/domain/model/task_list.dart';
+import 'package:task_garage/presentation/widgets/getDetailTask.dart';
+import 'package:task_garage/presentation/widgets/stuckBadge.dart';
 
+import '../../helper.dart';
 import 'dealBadge.dart';
 import 'infoBadge.dart';
+import 'lightBadge.dart';
 
 class ItemTask extends StatelessWidget {
-  const ItemTask(
-      {Key? key,
-      required this.task,
-      required this.isDeadlineAlert,
-      required this.expandDetail})
+  const ItemTask({Key? key, required this.task, required this.isDeadlineAlert, required this.taskDetail})
       : super(key: key);
 
   final Task task;
   final bool isDeadlineAlert;
-  final bool expandDetail;
+  final TaskDetail? taskDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -30,22 +31,19 @@ class ItemTask extends StatelessWidget {
         children: [
           Row(
             children: [
-              DealNameBadge(
-                  text: task.deal, isActive: task.status != 'finished'),
+              DealNameBadge(text: task.deal, isActive: task.status != 'finished'),
               if (task.info != null) const InfoBadge(),
-              // if (task['stuck'] != null) const StuckBadge(),
+              if (task.stuck != null) const StuckBadge(),
               Expanded(child: Container()),
-              // LightBadge(text: getTimeFromString(task['start'])),
-              // LightBadge(text: getDifference(task['start'], task['end'])),
+              LightBadge(text: getTimeFromDateTime(task.start)),
+              LightBadge(text: getDifferenceInTime(task.start, task.end)),
             ],
           ),
           const SizedBox(height: 4.0),
-          Text(task.name,
-              style: const TextStyle(fontWeight: FontWeight.w700)),
-          Text(task.generalInfo,
-              style: const TextStyle(fontWeight: FontWeight.w400)),
-          // if (expandDetail) {}
-          // ...getProductDetail(item: item, context: context, detail: detail),
+          Text(task.name, style: const TextStyle(fontWeight: FontWeight.w700)),
+          Text(task.generalInfo, style: const TextStyle(fontWeight: FontWeight.w400)),
+          Text(taskDetail != null ? '1':'0'),
+          // if (taskDetail != null) Text('ffff'),
         ],
       ),
     );

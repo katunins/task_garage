@@ -27,7 +27,7 @@ class AuthPage extends StatelessWidget {
           _dateState.today(context);
         }
       } catch (error) {
-      showMyDialog(context: context, content: const Text('Попробуйте еще раз'));
+      showAlertDialog(context: context, content: const Text('Попробуйте еще раз'));
       }
     }
 

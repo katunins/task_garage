@@ -10,17 +10,6 @@ class UserProvider with ChangeNotifier {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   UserProvider(this._userRepository) {
-    _loadFromPrefs();
-  }
-
-  final UserRepository _userRepository;
-
-  User? _user;
-
-  User? get user => _user;
-
-
-  _loadFromPrefs() async {
     _prefs.then((SharedPreferences prefs) {
       var mapUser = jsonDecode(prefs.getString('user') ?? '');
       _user = User(
@@ -28,6 +17,12 @@ class UserProvider with ChangeNotifier {
       notifyListeners();
     });
   }
+
+  final UserRepository _userRepository;
+
+  User? _user;
+
+  User? get user => _user;
 
   _saveToPrefs() async {
     _prefs.then((SharedPreferences prefs) => prefs.setString('user', jsonEncode(_user?.toJson())));
@@ -39,5 +34,11 @@ class UserProvider with ChangeNotifier {
     _saveToPrefs();
     notifyListeners();
     return user;
+  }
+
+  void logOut (){
+    _user = null;
+    _saveToPrefs();
+    notifyListeners();
   }
 }

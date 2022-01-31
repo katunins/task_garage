@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:task_garage/domain/state/app_provider.dart';
 import 'package:task_garage/domain/state/date_provider.dart';
-import 'package:task_garage/domain/state/loader_provider.dart';
 import 'package:task_garage/domain/state/task_list_provider.dart';
 import 'package:task_garage/domain/state/user_provider.dart';
 import 'package:task_garage/presentation/home.dart';
@@ -24,7 +24,7 @@ class Application extends StatelessWidget {
               RepositoryModule.userRepository(),
             )),
             ChangeNotifierProvider.value(value: TaskListProvider(RepositoryModule.taskListRepository())),
-            ChangeNotifierProvider.value(value: LoaderProvider()),
+            ChangeNotifierProvider.value(value: AppProvider()),
             ChangeNotifierProvider.value(value: DateProvider()),
           ],
           child: const Home(),

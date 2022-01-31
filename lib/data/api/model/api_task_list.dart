@@ -1,3 +1,6 @@
+import 'package:task_garage/data/api/model/api_user.dart';
+import 'package:task_garage/domain/model/task_list.dart';
+import 'package:task_garage/domain/model/user.dart';
 import 'package:task_garage/helper.dart';
 
 class ApiTaskList {
@@ -38,8 +41,10 @@ class ApiTask {
   final String manager;
   final int? managernote;
   final String deal;
+  final Task? stuck;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final ApiUser? masterName;
 
   ApiTask.fromApi(Map<String, dynamic> map)
       : id = map['id'],
@@ -61,6 +66,8 @@ class ApiTask {
         manager = map['manager'],
         managernote = map['managernote'],
         deal = map['deal'],
+        stuck = map['stuck'],
+        masterName = map['masterName'] != null ? ApiUser.fromApi(map['masterName']) : null,
         createdAt = DateTime.parse(map['created_at']),
         updatedAt = DateTime.parse(map['updated_at']);
 }

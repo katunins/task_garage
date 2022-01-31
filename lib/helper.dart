@@ -16,7 +16,7 @@ String getStringDate({required DateTime date, bool? forServer}) {
   return DateFormat(forServer != null ? "yyyy-MM-dd" : "dd.MM.yyyy").format(date);
 }
 
-Future<void> showMyDialog(
+Future<void> showAlertDialog(
     {required BuildContext context,
     String? title,
     required Widget content,
@@ -48,4 +48,14 @@ bool getDeadlineAlert({required DateTime endDate, required int buffer}) {
   DateTime deadlineDateTime = endDate;
   deadlineDateTime.add(Duration(minutes: buffer));
   return deadlineDateTime.compareTo(DateTime.now()) < 0;
+}
+
+String getTimeFromDateTime(DateTime date) {
+  DateFormat format = DateFormat("hh:mm");
+  return format.format(date);
+}
+
+String getDifferenceInTime(DateTime startDate, DateTime endDate) {
+  var diff = endDate.difference(startDate).inMinutes;
+  return '$diff мин';
 }

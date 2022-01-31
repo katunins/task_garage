@@ -1,10 +1,11 @@
-import 'dart:developer';
-
+import 'package:task_garage/data/api/request/get_task_detail_body.dart';
 import 'package:task_garage/data/api/request/get_task_list_body.dart';
 import 'package:task_garage/data/api/request/get_user_body.dart';
 import 'package:task_garage/data/api/service/task-garage_service.dart';
+import 'package:task_garage/data/mapper/task_detail_mapper.dart';
 import 'package:task_garage/data/mapper/task_list_mapper.dart';
 import 'package:task_garage/data/mapper/user_mapper.dart';
+import 'package:task_garage/domain/model/task_detail.dart';
 import 'package:task_garage/domain/model/task_list.dart';
 import 'package:task_garage/domain/model/user.dart';
 
@@ -23,5 +24,11 @@ class ApiUtil {
     final body = GetTaskListBody(taskListRequest: taskListRequest);
     final result = await _taskGarageService.getTaskList(body);
     return TaskListMapper.fromApi(result);
+  }
+
+  Future<TaskDetail> getTaskDetail({required int taskId}) async {
+    final body = GetTaskDetailBody(taskId: taskId);
+    final result = await _taskGarageService.getTaskDetail(body, taskId);
+    return TaskDetailMapper.fromApi(result);
   }
 }

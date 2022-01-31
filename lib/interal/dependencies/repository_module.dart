@@ -1,5 +1,7 @@
+import 'package:task_garage/data/repository/task_detail_data_repository.dart';
 import 'package:task_garage/data/repository/task_list_data_repository.dart';
 import 'package:task_garage/data/repository/user_data_repository.dart';
+import 'package:task_garage/domain/repository/task_detail.dart';
 import 'package:task_garage/domain/repository/task_list.dart';
 import 'package:task_garage/domain/repository/user.dart';
 
@@ -10,8 +12,9 @@ class RepositoryModule {
     ApiModule.apiUtil(),
   );
 
-  static TaskListRepository _taskListRepository =
-      TaskListDataRepository(ApiModule.apiUtil());
+  static TaskListRepository _taskListRepository = TaskListDataRepository(ApiModule.apiUtil());
+
+  static TaskDetailRepository _taskDetailRepository = TaskDetailDataRepository(ApiModule.apiUtil());
 
   static UserRepository userRepository() {
     if (_userRepository == null) {
@@ -29,5 +32,14 @@ class RepositoryModule {
       );
     }
     return _taskListRepository;
+  }
+
+  static TaskDetailRepository taskDetailRepository() {
+    if (_taskDetailRepository == null) {
+      _taskDetailRepository = TaskDetailDataRepository(
+        ApiModule.apiUtil(),
+      );
+    }
+    return _taskDetailRepository;
   }
 }

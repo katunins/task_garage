@@ -1,3 +1,5 @@
+import 'package:task_garage/domain/model/user.dart';
+
 class TaskListRequest {
   int userId;
   DateTime date;
@@ -42,8 +44,10 @@ class Task {
   String manager;
   int? managerNote;
   String deal;
+  Task? stuck;
   DateTime createdAt;
   DateTime updatedAt;
+  User? masterName;
 
   Task({
     required this.id,
@@ -61,12 +65,14 @@ class Task {
     required this.position,
     required this.generalInfo,
     required this.info,
+    required this.stuck,
     required this.dealId,
     required this.manager,
     required this.managerNote,
     required this.deal,
     required this.createdAt,
     required this.updatedAt,
+    this.masterName
   });
 }
 

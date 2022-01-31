@@ -1,28 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:task_garage/domain/model/task_detail.dart';
 import 'package:task_garage/domain/model/task_list.dart';
-import 'package:task_garage/domain/state/date_provider.dart';
+import 'package:task_garage/domain/repository/task_detail.dart';
+import 'package:task_garage/domain/state/app_provider.dart';
 import 'package:task_garage/domain/state/task_list_provider.dart';
+import 'package:task_garage/interal/dependencies/repository_module.dart';
 import 'package:task_garage/presentation/widgets/bottomBar.dart';
+import 'package:task_garage/presentation/widgets/drawer.dart';
 import 'package:task_garage/presentation/widgets/header.dart';
 import 'package:task_garage/presentation/widgets/item.dart';
 
 import '../helper.dart';
 
 class TaskListPage extends StatefulWidget {
-  const TaskListPage({Key? key, this.expandDetailId}) : super(key: key);
-
-  final int? expandDetailId;
+  const TaskListPage({Key? key}) : super(key: key);
 
   @override
   State<TaskListPage> createState() => _TaskListPageState();
 }
 
 class _TaskListPageState extends State<TaskListPage> {
+
+  TaskDetail? _taskDetail;
+  final TaskDetailRepository _taskDetailRepository = RepositoryModule.taskDetailRepository();
+
   @override
   Widget build(BuildContext context) {
     TaskListProvider _taskListState = Provider.of<TaskListProvider>(context);
+    AppProvider _appState = Provider.of<AppProvider>(context, listen: false);
     List<Task> _tasks = _taskListState.taskList.tasks;
 
     Future<void> _onRefresh() async {
@@ -37,29 +44,36 @@ class _TaskListPageState extends State<TaskListPage> {
           child: ListView.builder(
               itemCount: _taskListState.taskList.tasks.length,
               itemBuilder: (context, int index) {
-                // if (!_isShowFinishedTasks &&
-                //     _tasks[index]['status'] == 'finished') {
-                //   return const SizedBox.shrink();
-                // }
-                // bool isDeadlineAlert = getDeadlineAlert(
-                //     _tasks[index]['end'], _tasks[index]['buffer']);
-                Task task = _tasks[index];
+                Task _task = _tasks[index];
+                if (!_appState.showFinishedTasks && _task.status == 'finished') {
+                  return const SizedBox.shrink();
+                }
                 return GestureDetector(
                   child: ItemTask(
-                    task: task,
-                    isDeadlineAlert: getDeadlineAlert(
-                        endDate: task.end, buffer: task.buffer),
-                    expandDetail: widget.expandDetailId != null
-                        ? widget.expandDetailId == task.id
-                        : false,
+                    task: _task,
+                    isDeadlineAlert: _task.status != 'finished' &&
+                        getDeadlineAlert(endDate: _task.end, buffer: _task.buffer),
+                    taskDetail: _taskDetail?.taskId == _task.id ? _taskDetail : null,
                   ),
-                  onTap: () {
-                    // switchDetailTask(_tasks[index]['id']);
+                  onTap: () async {
+
+                    if (_taskDetail != null && _taskDetail?.taskId == _task.id) {
+                      setState(() {
+                        _taskDetail = null;
+                      });
+                    } else {
+                      TaskDetail? taskDetail = await _taskDetailRepository.getTaskDetail(taskId: _task.id);
+                      if (taskDetail == null) return;
+                      setState(() {
+                        _taskDetail = taskDetail;
+                      });
+                    }
                   },
                 );
               }),
           onRefresh: _onRefresh),
       bottomNavigationBar: const BottomBar(),
+      drawer: const DrawerMenu(),
     );
   }
 }

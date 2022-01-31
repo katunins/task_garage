@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_garage/domain/model/task_list.dart';
-import 'package:task_garage/domain/state/loader_provider.dart';
+import 'package:task_garage/domain/state/app_provider.dart';
 import 'package:task_garage/domain/state/task_list_provider.dart';
 import 'package:task_garage/domain/state/user_provider.dart';
 import '../../helper.dart';
@@ -37,14 +37,14 @@ class DateProvider with ChangeNotifier {
 
   void _taskListUpdate(BuildContext context) {
     UserProvider _userState = Provider.of<UserProvider>(context, listen: false);
-    LoaderProvider _loaderState = Provider.of<LoaderProvider>(context, listen: false);
+    AppProvider _appState = Provider.of<AppProvider>(context, listen: false);
     TaskListProvider _taskListState = Provider.of<TaskListProvider>(context, listen: false);
-    _loaderState.setLoader(true);
+    _appState.setLoader(true);
     int? _userId = _userState.user?.id;
     if (_userId != null) {
       _taskListState
           .getTaskList(TaskListRequest(date: _date, userId: _userId))
-          .then((value) => _loaderState.setLoader(false));
+          .then((value) => _appState.setLoader(false));
     }
   }
 
