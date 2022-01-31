@@ -21,7 +21,7 @@ class TaskListProvider with ChangeNotifier {
   }
 
   void refreshTaskList(BuildContext context) {
-    DateProvider _dateState = Provider.of<DateProvider>(context);
+    DateProvider _dateState = Provider.of<DateProvider>(context, listen: false);
     UserProvider _userState = Provider.of<UserProvider>(context);
 
     DateTime _date = _dateState.date;

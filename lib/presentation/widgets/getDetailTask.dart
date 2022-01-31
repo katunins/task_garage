@@ -1,17 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:task_garage/domain/model/task_detail.dart';
 import 'package:task_garage/domain/model/task_list.dart';
-import 'package:task_garage/domain/state/app_provider.dart';
-import 'package:task_garage/domain/state/task_list_provider.dart';
 import 'package:task_garage/presentation/widgets/taskBlockAlert.dart';
 
-List<Widget> getDetailTask(
-    {required TaskDetail? taskDetail,
-    required BuildContext context,
-    required Task task,
-    }) {
+List<Widget> getDetailTask({
+  required TaskDetail? taskDetail,
+  required BuildContext context,
+  required Task task,
+}) {
   if (taskDetail == null) return [];
 
   return [
@@ -22,11 +19,9 @@ List<Widget> getDetailTask(
             ? () {
                 showDialog(
                     context: context,
-                    builder: (BuildContext childContext) {
+                    builder: (_) {
                       return TaskBlockAlertWidget(
-                        taskId: task.id,
-                        context: context
-                      );
+                          taskId: task.id, context: context);
                     });
               }
             : null,

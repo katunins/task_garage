@@ -41,7 +41,7 @@ class ApiTask {
   final String manager;
   final int? managernote;
   final String deal;
-  final Task? stuck;
+  final Map<String, dynamic>? stuck;
   final DateTime createdAt;
   final DateTime updatedAt;
   final ApiUser? masterName;

@@ -7,7 +7,7 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _dateState = Provider.of<DateProvider>(context);
+    var _dateState = Provider.of<DateProvider>(context, listen: false);
     return BottomNavigationBar(
       currentIndex: 0,
       items: [

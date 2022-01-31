@@ -18,16 +18,19 @@ class TaskBlockAlertWidget extends StatefulWidget {
 }
 
 class _TaskBlockAlertWidgetState extends State<TaskBlockAlertWidget> {
+  _TaskBlockAlertWidgetState();
+
   final _formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(_) {
     TasksRepository _setTasksRepository = RepositoryModule.setTasksRepository();
-    AppProvider _appState = Provider.of<AppProvider>(context);
-    TaskListProvider _taskListState = Provider.of<TaskListProvider>(context);
+    AppProvider _appState = Provider.of<AppProvider>(widget.context, listen: false);
+    TaskListProvider _taskListState =
+        Provider.of<TaskListProvider>(widget.context, listen: false);
 
     void _onSaved(String? message) {
-      widget.setLoader(true);
+      _appState.setLoader(true);
       _setTasksRepository
           .setTasksAction(
               taskActionRequest: TaskActionRequest(
@@ -35,7 +38,8 @@ class _TaskBlockAlertWidgetState extends State<TaskBlockAlertWidget> {
                   message: message,
                   taskId: widget.taskId))
           .then((value) {
-        widget.setLoader(false);
+        _appState.setLoader(false);
+        _taskListState.refreshTaskList(widget.context);
         Navigator.of(context, rootNavigator: true).pop('dialog');
       });
     }

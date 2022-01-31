@@ -4,18 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:task_garage/domain/model/task_list.dart';
 import 'package:task_garage/domain/state/app_provider.dart';
 import 'package:task_garage/domain/state/task_list_provider.dart';
-import 'package:task_garage/domain/state/user_provider.dart';
 import '../../helper.dart';
-
-// const weekDays = {
-//   1: 'Понедельник',
-//   2: 'Вторник',
-//   3: 'Среда',
-//   4: 'Четверг',
-//   5: 'Пятница',
-//   6: 'Суббота',
-//   7: 'Воскресенье',
-// };
 
 const weekDays = {
   1: 'Пн',
@@ -29,23 +18,27 @@ const weekDays = {
 
 class DateProvider with ChangeNotifier {
   DateTime _date = DateTime.now();
+  final
 
   DateTime get date => _date;
+
   String get stringDate => getStringDate(date: _date);
 
   String get weekDay => weekDays[_date.weekday] ?? '';
 
-  void _taskListUpdate(BuildContext context) {
-    UserProvider _userState = Provider.of<UserProvider>(context, listen: false);
+  void _taskListUpdate({
+    required BuildContext context,
+    required int userId,
+  }) {
+    // UserProvider _userState = Provider.of<UserProvider>(context, listen: false);
     AppProvider _appState = Provider.of<AppProvider>(context, listen: false);
-    TaskListProvider _taskListState = Provider.of<TaskListProvider>(context, listen: false);
+    TaskListProvider _taskListState =
+        Provider.of<TaskListProvider>(context, listen: false);
     _appState.setLoader(true);
-    int? _userId = _userState.user?.id;
-    if (_userId != null) {
-      _taskListState
-          .getTaskList(TaskListRequest(date: _date, userId: _userId))
-          .then((value) => _appState.setLoader(false));
-    }
+    _taskListState
+        .getTaskList(TaskListRequest(date: _date, userId: userId))
+        .then((value) => _appState.setLoader(false));
+    // }
   }
 
   void nextDay(BuildContext context) {
@@ -68,6 +61,9 @@ class DateProvider with ChangeNotifier {
 
   Future<void> showPicker(BuildContext context) async {
     showDatePicker(
-        context: context, initialDate: DateTime.now(), firstDate: DateTime(2021), lastDate: DateTime(2025));
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2025));
   }
 }

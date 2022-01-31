@@ -44,7 +44,7 @@ class Task {
   String manager;
   int? managerNote;
   String deal;
-  Task? stuck;
+  Map<String, dynamic>? stuck;
   DateTime createdAt;
   DateTime updatedAt;
   User? masterName;
