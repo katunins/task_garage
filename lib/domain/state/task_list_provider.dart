@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:task_garage/domain/model/task_list.dart';
-import 'package:task_garage/domain/repository/task_list.dart';
+import 'package:task_garage/domain/repository/tasks.dart';
 import 'package:task_garage/domain/state/date_provider.dart';
 import 'package:task_garage/domain/state/user_provider.dart';
 
 class TaskListProvider with ChangeNotifier {
   TaskListProvider(this._taskListRepository);
 
-  final TaskListRepository _taskListRepository;
+  final TasksRepository _taskListRepository;
 
   TaskList _taskList = TaskList(tasks: [], notFinished: NotFinished(deadline: 0, stuck: 0));
 

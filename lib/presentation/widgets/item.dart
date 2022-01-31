@@ -42,8 +42,7 @@ class ItemTask extends StatelessWidget {
           const SizedBox(height: 4.0),
           Text(task.name, style: const TextStyle(fontWeight: FontWeight.w700)),
           Text(task.generalInfo, style: const TextStyle(fontWeight: FontWeight.w400)),
-          Text(taskDetail != null ? '1':'0'),
-          // if (taskDetail != null) Text('ffff'),
+          ...getDetailTask(taskDetail: taskDetail, context: context, task: task),
         ],
       ),
     );

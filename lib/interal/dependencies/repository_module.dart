@@ -1,8 +1,6 @@
-import 'package:task_garage/data/repository/task_detail_data_repository.dart';
-import 'package:task_garage/data/repository/task_list_data_repository.dart';
+import 'package:task_garage/data/repository/tasks_data_repository.dart';
 import 'package:task_garage/data/repository/user_data_repository.dart';
-import 'package:task_garage/domain/repository/task_detail.dart';
-import 'package:task_garage/domain/repository/task_list.dart';
+import 'package:task_garage/domain/repository/tasks.dart';
 import 'package:task_garage/domain/repository/user.dart';
 
 import 'api_module.dart';
@@ -12,9 +10,14 @@ class RepositoryModule {
     ApiModule.apiUtil(),
   );
 
-  static TaskListRepository _taskListRepository = TaskListDataRepository(ApiModule.apiUtil());
+  static TasksRepository _taskListRepository =
+      TasksDataRepository(ApiModule.apiUtil());
 
-  static TaskDetailRepository _taskDetailRepository = TaskDetailDataRepository(ApiModule.apiUtil());
+  static TasksRepository _taskDetailRepository =
+      TasksDataRepository(ApiModule.apiUtil());
+
+  static TasksRepository _setTasksRepository =
+      TasksDataRepository(ApiModule.apiUtil());
 
   static UserRepository userRepository() {
     if (_userRepository == null) {
@@ -25,21 +28,28 @@ class RepositoryModule {
     return _userRepository;
   }
 
-  static TaskListRepository taskListRepository() {
+  static TasksRepository taskListRepository() {
     if (_taskListRepository == null) {
-      _taskListRepository = TaskListDataRepository(
+      _taskListRepository = TasksDataRepository(
         ApiModule.apiUtil(),
       );
     }
     return _taskListRepository;
   }
 
-  static TaskDetailRepository taskDetailRepository() {
+  static TasksRepository taskDetailRepository() {
     if (_taskDetailRepository == null) {
-      _taskDetailRepository = TaskDetailDataRepository(
+      _taskDetailRepository = TasksDataRepository(
         ApiModule.apiUtil(),
       );
     }
     return _taskDetailRepository;
+  }
+
+  static TasksRepository setTasksRepository() {
+    if (_setTasksRepository == null) {
+      _setTasksRepository = TasksDataRepository(ApiModule.apiUtil());
+    }
+    return _setTasksRepository;
   }
 }

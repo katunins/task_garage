@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:task_garage/domain/model/task_action.dart';
+import 'package:task_garage/domain/repository/tasks.dart';
+import 'package:task_garage/domain/state/app_provider.dart';
+import 'package:task_garage/domain/state/task_list_provider.dart';
+import 'package:task_garage/interal/dependencies/repository_module.dart';
 
 class TaskBlockAlertWidget extends StatefulWidget {
-  const TaskBlockAlertWidget({Key? key, required this.id}) : super(key: key);
-  final int id;
+  const TaskBlockAlertWidget(
+      {Key? key, required this.taskId, required this.context})
+      : super(key: key);
+  final int taskId;
+  final BuildContext context;
 
   @override
   _TaskBlockAlertWidgetState createState() => _TaskBlockAlertWidgetState();
@@ -13,33 +22,48 @@ class _TaskBlockAlertWidgetState extends State<TaskBlockAlertWidget> {
 
   @override
   Widget build(BuildContext context) {
+    TasksRepository _setTasksRepository = RepositoryModule.setTasksRepository();
+    AppProvider _appState = Provider.of<AppProvider>(context);
+    TaskListProvider _taskListState = Provider.of<TaskListProvider>(context);
+
+    void _onSaved(String? message) {
+      widget.setLoader(true);
+      _setTasksRepository
+          .setTasksAction(
+              taskActionRequest: TaskActionRequest(
+                  action: 'mastermessage',
+                  message: message,
+                  taskId: widget.taskId))
+          .then((value) {
+        widget.setLoader(false);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+      });
+    }
+
     return AlertDialog(
       alignment: Alignment.center,
       title: const Center(child: Text("Блокировка задачи")),
       content: Column(
-        // mainAxisSize: MainAxisSize.min,
-        // children: [
-        //   Form(
-        //     key: _formKey,
-        //     child: TextFormField(
-        //       style: const TextStyle(fontSize: 13.0),
-        //       autofocus: true,
-        //       decoration: const InputDecoration(
-        //         hintText: 'Опишите причину блокировки задачи',
-        //         filled: true,
-        //         fillColor: Color.fromRGBO(240, 240, 240, 1),
-        //         border: InputBorder.none,
-        //       ),
-        //       // textAlign: TextAlign.center,
-        //       maxLines: 5,
-        //       scrollPadding: const EdgeInsets.all(20.0),
-        //       onSaved: (message) {
-        //         context.read<Data>().toBlockTask(id: widget.id, message: message ?? '');
-        //         Navigator.of(context, rootNavigator: true).pop('dialog');
-        //       },
-        //     ),
-        //   )
-        // ],
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Form(
+            key: _formKey,
+            child: TextFormField(
+              style: const TextStyle(fontSize: 13.0),
+              autofocus: true,
+              decoration: const InputDecoration(
+                hintText: 'Опишите причину блокировки задачи',
+                filled: true,
+                fillColor: Color.fromRGBO(240, 240, 240, 1),
+                border: InputBorder.none,
+              ),
+              // textAlign: TextAlign.center,
+              maxLines: 5,
+              scrollPadding: const EdgeInsets.all(20.0),
+              onSaved: _onSaved,
+            ),
+          )
+        ],
       ),
       actionsOverflowButtonSpacing: 120,
       actionsAlignment: MainAxisAlignment.center,

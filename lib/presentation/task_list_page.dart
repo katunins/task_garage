@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_garage/domain/model/task_detail.dart';
 import 'package:task_garage/domain/model/task_list.dart';
-import 'package:task_garage/domain/repository/task_detail.dart';
+import 'package:task_garage/domain/repository/tasks.dart';
 import 'package:task_garage/domain/state/app_provider.dart';
 import 'package:task_garage/domain/state/task_list_provider.dart';
 import 'package:task_garage/interal/dependencies/repository_module.dart';
@@ -24,7 +24,7 @@ class TaskListPage extends StatefulWidget {
 class _TaskListPageState extends State<TaskListPage> {
 
   TaskDetail? _taskDetail;
-  final TaskDetailRepository _taskDetailRepository = RepositoryModule.taskDetailRepository();
+  final TasksRepository _taskDetailRepository = RepositoryModule.taskDetailRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -56,17 +56,18 @@ class _TaskListPageState extends State<TaskListPage> {
                     taskDetail: _taskDetail?.taskId == _task.id ? _taskDetail : null,
                   ),
                   onTap: () async {
-
                     if (_taskDetail != null && _taskDetail?.taskId == _task.id) {
                       setState(() {
                         _taskDetail = null;
                       });
                     } else {
+                      _appState.setLoader(true);
                       TaskDetail? taskDetail = await _taskDetailRepository.getTaskDetail(taskId: _task.id);
                       if (taskDetail == null) return;
                       setState(() {
                         _taskDetail = taskDetail;
                       });
+                      _appState.setLoader(false);
                     }
                   },
                 );
