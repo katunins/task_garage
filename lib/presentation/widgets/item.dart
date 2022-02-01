@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_garage/domain/model/task_detail.dart';
 import 'package:task_garage/domain/model/task_list.dart';
 import 'package:task_garage/presentation/widgets/getDetailTask.dart';
+import 'package:task_garage/presentation/widgets/itemBody.dart';
 import 'package:task_garage/presentation/widgets/stuckBadge.dart';
 
 import '../../helper.dart';
@@ -29,19 +30,7 @@ class ItemTask extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            children: [
-              DealNameBadge(text: task.deal, isActive: task.status != 'finished'),
-              if (task.info != null) const InfoBadge(),
-              if (task.stuck != null) const StuckBadge(),
-              Expanded(child: Container()),
-              LightBadge(text: getTimeFromDateTime(task.start)),
-              LightBadge(text: getDifferenceInTime(task.start, task.end)),
-            ],
-          ),
-          const SizedBox(height: 4.0),
-          Text(task.name, style: const TextStyle(fontWeight: FontWeight.w700)),
-          Text(task.generalInfo, style: const TextStyle(fontWeight: FontWeight.w400)),
+          itemBody(task: task),
           ...getDetailTask(taskDetail: taskDetail, context: context, task: task),
         ],
       ),

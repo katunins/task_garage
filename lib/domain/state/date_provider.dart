@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:task_garage/domain/model/task_list.dart';
 import 'package:task_garage/domain/state/app_provider.dart';
 import 'package:task_garage/domain/state/task_list_provider.dart';
+import 'package:task_garage/domain/state/user_provider.dart';
 import '../../helper.dart';
 
 const weekDays = {
@@ -18,7 +19,6 @@ const weekDays = {
 
 class DateProvider with ChangeNotifier {
   DateTime _date = DateTime.now();
-  final
 
   DateTime get date => _date;
 
@@ -26,37 +26,30 @@ class DateProvider with ChangeNotifier {
 
   String get weekDay => weekDays[_date.weekday] ?? '';
 
-  void _taskListUpdate({
-    required BuildContext context,
-    required int userId,
-  }) {
-    // UserProvider _userState = Provider.of<UserProvider>(context, listen: false);
-    AppProvider _appState = Provider.of<AppProvider>(context, listen: false);
-    TaskListProvider _taskListState =
-        Provider.of<TaskListProvider>(context, listen: false);
-    _appState.setLoader(true);
-    _taskListState
-        .getTaskList(TaskListRequest(date: _date, userId: userId))
-        .then((value) => _appState.setLoader(false));
-    // }
+  Future taskListUpdate(BuildContext context) async {
+    await Future.delayed(const Duration());
+    context.read<AppProvider>().setLoader(true);
+    await context.read<TaskListProvider>().getTaskList(TaskListRequest(
+        date: _date, userId: context.read<UserProvider>().user!.id));
+    context.read<AppProvider>().setLoader(false);
   }
 
   void nextDay(BuildContext context) {
     _date = _date.add(const Duration(days: 1));
     notifyListeners();
-    _taskListUpdate(context);
+    taskListUpdate(context);
   }
 
   void today(BuildContext context) {
     _date = DateTime.now();
     notifyListeners();
-    _taskListUpdate(context);
+    taskListUpdate(context);
   }
 
   void prevDay(BuildContext context) {
     _date = _date.subtract(const Duration(days: 1));
     notifyListeners();
-    _taskListUpdate(context);
+    taskListUpdate(context);
   }
 
   Future<void> showPicker(BuildContext context) async {

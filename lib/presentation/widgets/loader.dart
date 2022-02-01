@@ -7,8 +7,7 @@ class Loader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppProvider _appState = Provider.of<AppProvider>(context);
-    if (!_appState.loader) return Container();
+    if (!context.watch<AppProvider>().loader) return Container();
     return const SizedBox(
         width: 20.0,
         height: 20.0,

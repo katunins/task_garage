@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:task_garage/domain/state/app_provider.dart';
 import 'package:task_garage/domain/state/date_provider.dart';
 import 'package:task_garage/presentation/widgets/loader.dart';
 
@@ -8,7 +9,7 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateProvider _dateState = Provider.of<DateProvider>(context);
+    DateProvider _dateState = context.watch<DateProvider>();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

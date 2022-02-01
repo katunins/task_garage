@@ -10,22 +10,21 @@ class TaskListProvider with ChangeNotifier {
 
   final TasksRepository _taskListRepository;
 
-  TaskList _taskList = TaskList(tasks: [], notFinished: NotFinished(deadline: 0, stuck: 0));
+  late TaskList _taskList =
+      TaskList(tasks: [], notFinished: NotFinished(deadline: 0, stuck: 0));
 
   TaskList get taskList => _taskList;
 
   Future<void> getTaskList(TaskListRequest taskListRequest) async {
-    final TaskList taskList = await _taskListRepository.getTaskList(taskListRequest: taskListRequest);
+    final TaskList taskList =
+        await _taskListRepository.getTaskList(taskListRequest: taskListRequest);
     _taskList = taskList;
     notifyListeners();
   }
 
   void refreshTaskList(BuildContext context) {
-    DateProvider _dateState = Provider.of<DateProvider>(context, listen: false);
-    UserProvider _userState = Provider.of<UserProvider>(context);
-
-    DateTime _date = _dateState.date;
-    int? _userId = _userState.user?.id;
-    if (_userId != null) getTaskList(TaskListRequest(date: _date, userId: _userId));
+    getTaskList(TaskListRequest(
+        date: context.read<DateProvider>().date,
+        userId: context.read<UserProvider>().user!.id));
   }
 }
