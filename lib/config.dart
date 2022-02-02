@@ -10,5 +10,10 @@ class Config {
   };
 }
 
+class _FontSizes {
+  final double mini = 14;
+}
+
+_FontSizes fontSizes = _FontSizes();
 
 String BASE_URL = 'https://api-garage.korobook.ru/api';

@@ -7,14 +7,16 @@ import 'package:task_garage/domain/model/user.dart';
 
 class TaskDetailMapper {
   static TaskDetail fromApi(ApiTaskDetail taskDetail) {
-    ApiTask? _nextTask = taskDetail.nextTask;
+    ApiNextTask? _nextTask = taskDetail.nextTask;
+    ApiDeal? _deal = taskDetail.deal;
     ApiUser? masterName = _nextTask?.masterName;
+    ApiStuckTask? stuck = _nextTask?.stuck;
 
     return TaskDetail(
         taskId: taskDetail.taskId,
-        deal: Deal(params: taskDetail.deal.params, products: taskDetail.deal.products),
+        deal: _deal != null ? Deal(params: _deal.params, products: _deal.products) : null,
         nextTask: _nextTask != null
-            ? Task(
+            ? NextTask(
                 id: _nextTask.id,
                 name: _nextTask.name,
                 master: _nextTask.master,
@@ -34,7 +36,31 @@ class TaskDetailMapper {
                 manager: _nextTask.manager,
                 managerNote: _nextTask.managernote,
                 deal: _nextTask.deal,
-                stuck: _nextTask.stuck,
+                stuck: stuck != null
+                    ? Task(
+                        id: stuck.id,
+                        name: stuck.name,
+                        master: stuck.master,
+                        templateId: stuck.templateid,
+                        time: stuck.time,
+                        status: stuck.status,
+                        masterComment: stuck.mastercomment,
+                        taskIdBefore: stuck.taskidbefore,
+                        start: stuck.start,
+                        end: stuck.end,
+                        buffer: stuck.buffer,
+                        line: stuck.line,
+                        position: stuck.position,
+                        generalInfo: stuck.generalinfo,
+                        info: stuck.info,
+                        stuck: null,
+                        dealId: stuck.dealid,
+                        manager: stuck.manager,
+                        managerNote: stuck.managernote,
+                        deal: stuck.deal,
+                        createdAt: stuck.createdAt,
+                        updatedAt: stuck.updatedAt)
+                    : null,
                 createdAt: _nextTask.createdAt,
                 updatedAt: _nextTask.updatedAt,
                 masterName: masterName != null

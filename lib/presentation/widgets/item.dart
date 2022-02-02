@@ -3,12 +3,6 @@ import 'package:task_garage/domain/model/task_detail.dart';
 import 'package:task_garage/domain/model/task_list.dart';
 import 'package:task_garage/presentation/widgets/getDetailTask.dart';
 import 'package:task_garage/presentation/widgets/itemBody.dart';
-import 'package:task_garage/presentation/widgets/stuckBadge.dart';
-
-import '../../helper.dart';
-import 'dealBadge.dart';
-import 'infoBadge.dart';
-import 'lightBadge.dart';
 
 class ItemTask extends StatelessWidget {
   const ItemTask({Key? key, required this.task, required this.isDeadlineAlert, required this.taskDetail})
@@ -30,7 +24,17 @@ class ItemTask extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          itemBody(task: task),
+          TaskWidget(
+                  name: task.name,
+                  status: task.status,
+                  start: task.start,
+                  end: task.end,
+                  generalInfo: task.generalInfo,
+                  info: task.info,
+                  deal: task.deal,
+                  stuck: task.stuck,
+              managerNote: task.managerNote)
+              .getItem(),
           ...getDetailTask(taskDetail: taskDetail, context: context, task: task),
         ],
       ),

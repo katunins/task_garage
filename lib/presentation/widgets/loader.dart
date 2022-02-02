@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:task_garage/domain/state/app_provider.dart';
 
 class Loader extends StatelessWidget {
   const Loader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (!context.watch<AppProvider>().loader) return Container();
-    return const SizedBox(
+    return Container(
         width: 20.0,
         height: 20.0,
-        child: CircularProgressIndicator(
+        padding: const EdgeInsets.all(15.0),
+        child: const CircularProgressIndicator(
           color: Colors.white,
           strokeWidth: 2.0,
         ));

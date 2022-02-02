@@ -2,16 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'data/api/model/api_task_list.dart';
-
-List<ApiTask> apiTaskListConverter(List<dynamic> map) {
-  List<ApiTask> result = [];
-  for (var item in map) {
-    result.add(ApiTask.fromApi(item));
-  }
-  return result;
-}
-
 String getStringDate({required DateTime date, bool? forServer}) {
   return DateFormat(forServer != null ? "yyyy-MM-dd" : "dd.MM.yyyy").format(date);
 }
@@ -43,7 +33,7 @@ Future<void> showAlertDialog(
   );
 }
 
-// сверяет задачи сделки с нынешней
+/// определяет вышел наступил ли дедлайн задачи
 bool getDeadlineAlert({required DateTime endDate, required int buffer}) {
   DateTime deadlineDateTime = endDate;
   deadlineDateTime.add(Duration(minutes: buffer));
@@ -58,4 +48,26 @@ String getTimeFromDateTime(DateTime date) {
 String getDifferenceInTime(DateTime startDate, DateTime endDate) {
   var diff = endDate.difference(startDate).inMinutes;
   return '$diff мин';
+}
+
+/// создает список элемент с параметрами продукта
+List<Widget> getParamsListWidget(Map<String, dynamic> product) {
+  List<Widget> result = [];
+  product.forEach((key, value) {
+    result.add(Wrap(
+      alignment: WrapAlignment.start,
+      children: [
+        Text(key, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12.0)),
+        if (value!= null) const Text(': ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.0)),
+        if (value!= null) Text(value.toString(), style: const TextStyle(fontSize: 12.0)),
+      ],
+    ));
+  });
+  return result;
+}
+
+/// возвращает номер продукта из названия сделки
+String getProductIndex({required String dealName}) {
+  List<String> arr = dealName.split('/');
+  return arr.length>1 ? arr.last : '1';
 }

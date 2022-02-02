@@ -4,5 +4,5 @@ class TaskActionRequest {
   final int taskId;
 
   TaskActionRequest(
-      {required this.action, required this.message, required this.taskId});
+      {required this.action, this.message, required this.taskId});
 }

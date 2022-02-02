@@ -28,6 +28,57 @@ class Task {
   int id;
   String name;
   int master;
+  int? templateId;
+  int time;
+  String status;
+  String? masterComment;
+  int? taskIdBefore;
+  DateTime start;
+  DateTime end;
+  int buffer;
+  int line;
+  int position;
+  String generalInfo;
+  String? info;
+  int dealId;
+  String manager;
+  int? managerNote;
+  String deal;
+  Task? stuck;
+  DateTime createdAt;
+  DateTime updatedAt;
+  String? masterName;
+
+  Task(
+      {required this.id,
+      required this.name,
+      required this.master,
+      required this.templateId,
+      required this.time,
+      required this.status,
+      required this.masterComment,
+      required this.taskIdBefore,
+      required this.start,
+      required this.end,
+      required this.buffer,
+      required this.line,
+      required this.position,
+      required this.generalInfo,
+      required this.info,
+      required this.stuck,
+      required this.dealId,
+      required this.manager,
+      required this.managerNote,
+      required this.deal,
+      required this.createdAt,
+      required this.updatedAt,
+      this.masterName});
+}
+
+class NextTask {
+  int id;
+  String name;
+  int master;
   int templateId;
   int time;
   String status;
@@ -44,36 +95,35 @@ class Task {
   String manager;
   int? managerNote;
   String deal;
-  Map<String, dynamic>? stuck;
+  Task? stuck;
   DateTime createdAt;
   DateTime updatedAt;
   User? masterName;
 
-  Task({
-    required this.id,
-    required this.name,
-    required this.master,
-    required this.templateId,
-    required this.time,
-    required this.status,
-    required this.masterComment,
-    required this.taskIdBefore,
-    required this.start,
-    required this.end,
-    required this.buffer,
-    required this.line,
-    required this.position,
-    required this.generalInfo,
-    required this.info,
-    required this.stuck,
-    required this.dealId,
-    required this.manager,
-    required this.managerNote,
-    required this.deal,
-    required this.createdAt,
-    required this.updatedAt,
-    this.masterName
-  });
+  NextTask(
+      {required this.id,
+      required this.name,
+      required this.master,
+      required this.templateId,
+      required this.time,
+      required this.status,
+      required this.masterComment,
+      required this.taskIdBefore,
+      required this.start,
+      required this.end,
+      required this.buffer,
+      required this.line,
+      required this.position,
+      required this.generalInfo,
+      required this.info,
+      required this.stuck,
+      required this.dealId,
+      required this.manager,
+      required this.managerNote,
+      required this.deal,
+      required this.createdAt,
+      required this.updatedAt,
+      this.masterName});
 }
 
 const body = {

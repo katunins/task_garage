@@ -1,5 +1,4 @@
 import 'package:task_garage/domain/model/task_list.dart';
-import 'package:task_garage/domain/model/user.dart';
 
 class TaskDetail {
   TaskDetail({
@@ -8,8 +7,8 @@ class TaskDetail {
     required this.taskId
   });
 
-  late final Deal deal;
-  late final Task? nextTask;
+  late final Deal? deal;
+  late final NextTask? nextTask;
   final int taskId;
 }
 
@@ -19,8 +18,8 @@ class Deal {
     required this.params,
   });
 
-  late final Map<String, dynamic> products;
-  late final Map<String, dynamic> params;
+  late final Map<String, dynamic>? products;
+  late final Map<String, dynamic>? params;
 
 }
 

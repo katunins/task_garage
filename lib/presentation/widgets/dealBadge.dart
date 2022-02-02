@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../config.dart';
+
 class DealNameBadge extends StatelessWidget {
-  const DealNameBadge({Key? key, required this.text, required this.isActive})
-      : super(key: key);
+  DealNameBadge({Key? key, required this.text, required this.isActive, this.mini = false}) : super(key: key);
   final String text;
   final bool isActive;
+  bool? mini;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class DealNameBadge extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Text(
         text,
-        style: const TextStyle(fontWeight: FontWeight.w500),
+        style: TextStyle(fontWeight: FontWeight.w500, fontSize: mini!? fontSizes.mini : null),
       ),
     );
   }

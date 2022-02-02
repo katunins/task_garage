@@ -12,9 +12,11 @@ class AppProvider with ChangeNotifier {
 
   bool _loader = false;
   late bool _showFinishedTasks;
+  bool _isSearchMode = false;
 
   bool get loader => _loader;
   bool get showFinishedTasks => _showFinishedTasks;
+  bool get isSearchMode =>_isSearchMode;
 
   void switchShowFinishedTasks (){
     _showFinishedTasks = !_showFinishedTasks;
@@ -26,4 +28,10 @@ class AppProvider with ChangeNotifier {
     _loader = active;
     notifyListeners();
   }
+
+  void switchIsSearchMode(){
+    _isSearchMode = !_isSearchMode;
+    notifyListeners();
+  }
+
 }

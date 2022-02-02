@@ -12,8 +12,10 @@ class TaskListProvider with ChangeNotifier {
 
   late TaskList _taskList =
       TaskList(tasks: [], notFinished: NotFinished(deadline: 0, stuck: 0));
+  String? _searchFilter;
 
   TaskList get taskList => _taskList;
+  String? get searchFilter => _searchFilter;
 
   Future<void> getTaskList(TaskListRequest taskListRequest) async {
     final TaskList taskList =
@@ -26,5 +28,15 @@ class TaskListProvider with ChangeNotifier {
     getTaskList(TaskListRequest(
         date: context.read<DateProvider>().date,
         userId: context.read<UserProvider>().user!.id));
+  }
+
+  void setSearchFilter (String text){
+    _searchFilter = text;
+    notifyListeners();
+  }
+
+  void clearSearchFilter (){
+    _searchFilter = null;
+    notifyListeners();
   }
 }

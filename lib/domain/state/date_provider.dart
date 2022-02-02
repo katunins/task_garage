@@ -29,8 +29,9 @@ class DateProvider with ChangeNotifier {
   Future taskListUpdate(BuildContext context) async {
     await Future.delayed(const Duration());
     context.read<AppProvider>().setLoader(true);
-    await context.read<TaskListProvider>().getTaskList(TaskListRequest(
-        date: _date, userId: context.read<UserProvider>().user!.id));
+    await context
+        .read<TaskListProvider>()
+        .getTaskList(TaskListRequest(date: _date, userId: context.read<UserProvider>().user!.id));
     context.read<AppProvider>().setLoader(false);
   }
 
@@ -52,11 +53,16 @@ class DateProvider with ChangeNotifier {
     taskListUpdate(context);
   }
 
-  Future<void> showPicker(BuildContext context) async {
+  void showPicker(BuildContext context) async {
     showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2021),
-        lastDate: DateTime(2025));
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2021),
+      lastDate: DateTime(2025),
+    ).then((value) {
+      _date = value!;
+      notifyListeners();
+      taskListUpdate(context);
+    });
   }
 }
